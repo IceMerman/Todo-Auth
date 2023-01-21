@@ -1,0 +1,10 @@
+# Files
+*.py[cod]
+*.db
+*.sqlite3
+
+# Folders
+__pycache__/
+img/
+
+# Exception
