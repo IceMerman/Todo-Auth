@@ -21,18 +21,6 @@ def signup(request):
             return redirect('home')
         else:
             context.update(newUser.error_messages)
-
-            # if request.POST['password1'] == request.POST['password2']:
-            #     try:
-            #         user = User.objects.create_user(username=request.POST['username'], password=request.POST['password2'])
-            #         user.save()
-            #     except IntegrityError:
-            #         context['error'] = 'Error user already exists'
-
-            #     except Exception as e:
-            #         return HttpResponse(f'Error {e}')
-            # else:
-                # context['error'] = 'No coinciden las constraseñas'
         return render(request, template_name='signup.html', context=context)
         
     elif request.method=="GET":
