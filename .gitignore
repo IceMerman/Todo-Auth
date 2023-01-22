@@ -6,5 +6,6 @@
 # Folders
 __pycache__/
 img/
+.vscode/
 
 # Exception
