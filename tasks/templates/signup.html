@@ -1,5 +1,22 @@
-{% extends 'base.html' %}
+{% extends 'layout/base.html' %}
 
 {% block content %}
-<h1>Hello world</h1>
+
+{% if password_mismatch %}
+<h1>{{password_mismatch}}</h1>
+{% elif error%}
+<h1>{{error}}</h1>
+{% endif %}
+
+{% if form %}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button>
+        Signup
+    </button>
+</form>
+{% endif %}
+
 {% endblock content %}
