@@ -1,0 +1,23 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ block.super }}{% endblock title %}
+
+{% block content %}
+<h1>Create task</h1>
+
+{% if message %}
+{{message}}
+{% endif %}
+
+{% if form %}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>
+        Create new task
+    </button>
+
+</form>
+{% endif %}
+
+{% endblock content %}

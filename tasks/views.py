@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ValidationError
+from .forms import createTaskForm
 
 # Create your views here.
 
@@ -34,7 +35,25 @@ def signup(request):
 
 def tasks(request):
     context = {}
-    return render(request, 'tasks.html', context=context)
+    return render(request, 'tasks/tasks.html', context=context)
+
+
+def create_task(request):
+    context = {}
+    if request.method=="GET":
+        context['form'] = createTaskForm
+    elif request.method=="POST":
+        try:
+            form = createTaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()     
+            return redirect('tasks')
+        except Exception as e:
+            context['message'] = f'Hubo un error, intenta de nuevo: {e}'
+            context['form'] = createTaskForm
+
+    return render(request, 'tasks/create_task.html', context=context)
 
 
 def logout_user(request):
