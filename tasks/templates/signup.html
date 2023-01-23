@@ -1,5 +1,7 @@
 {% extends 'layout/base.html' %}
 
+{% block title %}{{ block.super }} | Sign Up {% endblock title %}
+
 {% block content %}
 
 {% if password_mismatch %}

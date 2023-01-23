@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpResponse
 
 # Create your views here.
@@ -33,3 +33,7 @@ def signup(request):
 def tasks(request):
     context = {}
     return render(request, 'tasks.html', context=context)
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
