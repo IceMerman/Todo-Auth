@@ -43,12 +43,24 @@ def tasks(request):
     return render(request, 'tasks/tasks.html', context=context)
 
 def task_detail(request, id_task: int):
-    task = get_object_or_404(Task, pk=id_task)
-    # task = Task.objects.get(pk=id_task)
-    context = {
-        'task': task
-    }
-    return render(request, 'tasks/detail.html', context=context)
+    context = {}
+    task = get_object_or_404(Task, pk=id_task, user=request.user)
+    if request.method=="GET":
+        context['form'] = createTaskForm(instance=task)
+        context['task'] = task
+        return render(request, 'tasks/detail.html', context=context)
+    elif request.method=="POST":
+        try:
+            form = createTaskForm(request.POST, instance=task)
+            context['form'] = form
+            context['task'] = task
+            form.save()
+        except ValueError:
+            context['message'] = "ValueError"
+            return render(request, 'tasks/detail.html', context=context)
+        # return redirect('task_detail', id_task=id_task)
+        return redirect('tasks')
+                
 
 
 def create_task(request):

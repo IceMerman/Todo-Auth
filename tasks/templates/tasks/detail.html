@@ -4,8 +4,20 @@
 
 {% block content %}
 
+{% if message %}
+<h1>{{message}}</h1>
+{% endif %}
+
 <div class="task">
     <h1>{{task.pk}} - {{task.title}}</h1>
 </div>
+
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>
+        Update
+    </button>
+</form>
 
 {% endblock content %}
