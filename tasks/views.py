@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ValidationError
 from .forms import createTaskForm
+from .models import Task
 
 # Create your views here.
 
@@ -34,8 +35,20 @@ def signup(request):
 
 
 def tasks(request):
-    context = {}
+    # tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
+    tasks = Task.objects.filter(user=request.user)
+    context = {
+        'tasks': tasks
+    }
     return render(request, 'tasks/tasks.html', context=context)
+
+def task_detail(request, id_task: int):
+    task = get_object_or_404(Task, pk=id_task)
+    # task = Task.objects.get(pk=id_task)
+    context = {
+        'task': task
+    }
+    return render(request, 'tasks/detail.html', context=context)
 
 
 def create_task(request):

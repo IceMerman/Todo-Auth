@@ -1,0 +1,11 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ block.super }}| Task detail {% endblock title %}
+
+{% block content %}
+
+<div class="task">
+    <h1>{{task.pk}} - {{task.title}}</h1>
+</div>
+
+{% endblock content %}

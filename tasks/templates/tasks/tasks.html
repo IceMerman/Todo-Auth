@@ -2,4 +2,22 @@
 
 {% block content %}
 <h1>Tasks</h1> 
+
+{% if tasks %}
+
+<ul>
+{% for task in tasks %}
+    <li class="task">
+        {% if task.important %} <strong><h1>{{task.title}}</h1></strong> {% else %} <h1>{{task.title}}</h1> {% endif %}
+        <p>{{task.description}}</p>
+        <p>by: {{task.user.username}}</p>
+        <a href="{% url 'task_detail' task.id %}">Go to task detailt</a>
+    </li>
+{% endfor %}
+</ul>
+
+{% else %}
+<h2>{{user}} no tienes tareas registradas o pendientes</h2>
+{% endif %}
+
 {% endblock content %}
