@@ -42,14 +42,15 @@ def tasks(request):
     }
     return render(request, 'tasks/tasks.html', context=context)
 
+
 def task_detail(request, id_task: int):
     context = {}
     task = get_object_or_404(Task, pk=id_task, user=request.user)
-    if request.method=="GET":
+    if request.method == "GET":
         context['form'] = createTaskForm(instance=task)
         context['task'] = task
         return render(request, 'tasks/detail.html', context=context)
-    elif request.method=="POST":
+    elif request.method == "POST":
         try:
             form = createTaskForm(request.POST, instance=task)
             context['form'] = form
@@ -60,19 +61,18 @@ def task_detail(request, id_task: int):
             return render(request, 'tasks/detail.html', context=context)
         # return redirect('task_detail', id_task=id_task)
         return redirect('tasks')
-                
 
 
 def create_task(request):
     context = {}
-    if request.method=="GET":
+    if request.method == "GET":
         context['form'] = createTaskForm
-    elif request.method=="POST":
+    elif request.method == "POST":
         try:
             form = createTaskForm(request.POST)
             new_task = form.save(commit=False)
             new_task.user = request.user
-            new_task.save()     
+            new_task.save()
             return redirect('tasks')
         except Exception as e:
             context['message'] = f'Hubo un error, intenta de nuevo: {e}'
@@ -94,7 +94,7 @@ def signin(request):
             login(request, user)
             return redirect('tasks')
         else:
-            context={
+            context = {
                 'form': AuthenticationForm,
                 'error': "Invalid credentials"
             }
