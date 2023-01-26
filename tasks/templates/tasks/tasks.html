@@ -11,26 +11,38 @@
 
 {% block content %}
 
-    {% if completed %}
-    <h1>Completed tasks</h1> 
-    {% else %}
-    <h1>Pending Tasks</h1> 
-    {% endif %}
+    <main class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {% if completed %}
+                <h1 class="text-center display-3 py-5">Completed tasks</h1> 
+                {% else %}
+                <h1 class="text-center display-3 py-5">Pending Tasks</h1> 
+                {% endif %}
 
-    {% if tasks %}
-    <ul>
-    {% for task in tasks %}
-        <li class="task">
-            {% if task.important %} <strong><h1>{{task.title}}</h1></strong> {% else %} <h1>{{task.title}}</h1> {% endif %}
-            <p>{{task.description}}</p>
-            <p>by: {{task.user.username}}</p>
-            <a href="{% url 'task_detail' task.id %}">Go to task detailt</a>
-        </li>
-    {% endfor %}
-    </ul>
+                {% if tasks %}
+                <ul class="list-group">
+                {% for task in tasks %}
+                    <a class="list-group-item" href="{% url 'task_detail' task.id %}">
+                        <header class="d-flex justify-content-between">
+                            {% if task.important %} 
+                            <h1 class="fw-bold text-sucess">{{task.title}}</h1>
+                            {% else %}
+                            <h1 class="fw-bold">{{task.title}}</h1>
+                            {% endif %}
+                            
+                            {% comment %} <p>{{task.description}}</p> {% endcomment %}
+                            <p>by: {{task.user.username}}</p>
+                        </header>
+                    </a>
+                {% endfor %}
+                </ul>
 
-    {% else %}
-    <h2>{{user}} no tienes tareas registradas o pendientes/completadas</h2>
-    {% endif %}
+                {% else %}
+                <h2>{{user}} no tienes tareas registradas o pendientes/completadas</h2>
+                {% endif %}
+            </div>
+        </div>
+    </main>
 
 {% endblock content %}

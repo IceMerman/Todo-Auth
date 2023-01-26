@@ -4,32 +4,43 @@
 
 {% block content %}
 
-{% if message %}
-<h1>{{message}}</h1>
-{% endif %}
 
-<div class="task">
-    <h1>{{task.pk}} - {{task.title}}</h1>
-    <p>{{task.description}}</p>
-    <p>by: {{task.user.username}}</p>
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-4">
+            {% if message %}
+            <h1>{{message}}</h1>
+            {% endif %}
 
-    <p>{{task.date_completed|date:'Y M d H:i'}}</p>
-</div>
+            <h1 class="text-secondary">{{task.pk}} - {{task.title}}</h1>
+            
+            {% comment %} <p>by: {{task.user.username}}</p> {% endcomment %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button>Update</button>
-</form>
+            {% if task.date_completed %}
+            <p><mark>{{task.date_completed|date:'Y M d H:i'}}</mark></p>
+            {% endif %}
 
-<form action=" {% url 'task_complete' task.id %} " method="POST">
-    {% csrf_token %}
-    <button>Complete</button>
-</form>
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary">Update</button>
+            </form>
 
-<form action=" {% url 'task_delete' task.id %} " method="POST">
-    {% csrf_token %}
-    <button>Delete</button>
-</form>
+            <div class="mt-5 d-flex">
+    
+                <form action=" {% url 'task_complete' task.id %} " method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary">Complete</button>
+                </form>
+    
+                <form action=" {% url 'task_delete' task.id %} " method="POST">
+                    {% csrf_token %}
+                    <buttonclass="btn btn-danger">Delete</button>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</main>
 
 {% endblock content %}

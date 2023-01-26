@@ -3,21 +3,27 @@
 {% block title %}{{ block.super }}{% endblock title %}
 
 {% block content %}
-<h1>Create task</h1>
 
-{% if message %}
-{{message}}
-{% endif %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-4">
+            <h1>Create task</h1>
+            {% if message %}
+            {{message}}
+            {% endif %}
 
-{% if form %}
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button>
-        Create new task
-    </button>
+            {% if form %}
+            <form method="POST" class="card card-body">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary">
+                    Create new task
+                </button>
 
-</form>
-{% endif %}
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</main>
 
 {% endblock content %}
