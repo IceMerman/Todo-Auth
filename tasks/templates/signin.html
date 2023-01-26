@@ -3,18 +3,47 @@
 {% block title %}Sign In{% endblock title %}
 
 {% block content %}
-<h1>Sign In</h1>
+
 
 {% if error %}
 <h1>{{error}}</h1>
 {% endif %}
 
-<form method="POST">
+{% comment %}
+    <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
     <button>
         Sign In
     </button>
-</form>
+    </form>
+{% endcomment %}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-5">
+            {% if form %}
+            <form method="POST" class="card card-body">
+                <h1 class="text-center">Sign In</h1>
+                {% csrf_token %}
+                {# {{form.as_p}} #}
+                <div class="mb-3">
+                    <label for="id_username">Username:</label>
+                    <input type="text" name="username" required id="id_username" class="form-control" placeholder="Write your username">
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password1">Password:</label>
+                    <input type="password" name="password" required id="id_password1" class="form-control" placeholder="Write your password">
+                </div>
+
+                <button class="btn btn-primary">
+                    Sign In
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</main>
 
 {% endblock content %}
