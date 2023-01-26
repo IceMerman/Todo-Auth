@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ValidationError
 from .forms import createTaskForm
 from .models import Task
+from django.utils import timezone
 
 # Create your views here.
 
@@ -35,8 +36,8 @@ def signup(request):
 
 
 def tasks(request):
-    # tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
-    tasks = Task.objects.filter(user=request.user)
+    tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
+    # tasks = Task.objects.filter(user=request.user)
     context = {
         'tasks': tasks
     }
@@ -62,6 +63,21 @@ def task_detail(request, id_task: int):
         # return redirect('task_detail', id_task=id_task)
         return redirect('tasks')
 
+def task_complete(request, id_task: int):
+    # context = {}
+    task = get_object_or_404(Task, pk=id_task, user=request.user)
+    if request.method=="POST":
+        task.date_completed = timezone.now()
+        task.save()
+    return redirect('tasks')
+
+
+def task_delete(request, id_task: int):
+    # context = {}
+    task = get_object_or_404(Task, pk=id_task, user=request.user)
+    if request.method=="POST":
+        task.delete()
+    return redirect('tasks')
 
 def create_task(request):
     context = {}
