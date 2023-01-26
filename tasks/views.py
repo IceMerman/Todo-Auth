@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from .forms import createTaskForm
 from .models import Task
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -35,6 +36,7 @@ def signup(request):
     return render(request, template_name='signup.html', context=context)
 
 
+@login_required
 def tasks(request):
     tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
     # tasks = Task.objects.filter(user=request.user)
@@ -44,8 +46,11 @@ def tasks(request):
     }
     return render(request, 'tasks/tasks.html', context=context)
 
+
+@login_required
 def tasks_completed(request):
-    tasks = Task.objects.filter(user=request.user, date_completed__isnull=False).order_by('-date_completed')
+    tasks = Task.objects.filter(
+        user=request.user, date_completed__isnull=False).order_by('-date_completed')
     # tasks = Task.objects.filter(user=request.user)
     context = {
         'tasks': tasks,
@@ -54,6 +59,7 @@ def tasks_completed(request):
     return render(request, 'tasks/tasks.html', context=context)
 
 
+@login_required
 def task_detail(request, id_task: int):
     context = {}
     task = get_object_or_404(Task, pk=id_task, user=request.user)
@@ -73,22 +79,27 @@ def task_detail(request, id_task: int):
         # return redirect('task_detail', id_task=id_task)
         return redirect('tasks')
 
+
+@login_required
 def task_complete(request, id_task: int):
     # context = {}
     task = get_object_or_404(Task, pk=id_task, user=request.user)
-    if request.method=="POST":
+    if request.method == "POST":
         task.date_completed = timezone.now()
         task.save()
     return redirect('tasks')
 
 
+@login_required
 def task_delete(request, id_task: int):
     # context = {}
     task = get_object_or_404(Task, pk=id_task, user=request.user)
-    if request.method=="POST":
+    if request.method == "POST":
         task.delete()
     return redirect('tasks')
 
+
+@login_required
 def create_task(request):
     context = {}
     if request.method == "GET":
@@ -107,6 +118,7 @@ def create_task(request):
     return render(request, 'tasks/create_task.html', context=context)
 
 
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('home')
