@@ -1,23 +1,36 @@
 {% extends 'layout/base.html' %}
 
+{% block title %}
+    {{ block.super }} | 
+    {% if completed %}
+    Completed tasks
+    {% else %}
+    Pending Tasks
+    {% endif %}
+{% endblock title %}
+
 {% block content %}
-<h1>Tasks</h1> 
 
-{% if tasks %}
+    {% if completed %}
+    <h1>Completed tasks</h1> 
+    {% else %}
+    <h1>Pending Tasks</h1> 
+    {% endif %}
 
-<ul>
-{% for task in tasks %}
-    <li class="task">
-        {% if task.important %} <strong><h1>{{task.title}}</h1></strong> {% else %} <h1>{{task.title}}</h1> {% endif %}
-        <p>{{task.description}}</p>
-        <p>by: {{task.user.username}}</p>
-        <a href="{% url 'task_detail' task.id %}">Go to task detailt</a>
-    </li>
-{% endfor %}
-</ul>
+    {% if tasks %}
+    <ul>
+    {% for task in tasks %}
+        <li class="task">
+            {% if task.important %} <strong><h1>{{task.title}}</h1></strong> {% else %} <h1>{{task.title}}</h1> {% endif %}
+            <p>{{task.description}}</p>
+            <p>by: {{task.user.username}}</p>
+            <a href="{% url 'task_detail' task.id %}">Go to task detailt</a>
+        </li>
+    {% endfor %}
+    </ul>
 
-{% else %}
-<h2>{{user}} no tienes tareas registradas o pendientes</h2>
-{% endif %}
+    {% else %}
+    <h2>{{user}} no tienes tareas registradas o pendientes/completadas</h2>
+    {% endif %}
 
 {% endblock content %}
