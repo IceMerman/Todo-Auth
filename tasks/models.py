@@ -10,8 +10,10 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     date_completed = models.DateTimeField(null=True)
     important = models.BooleanField(default=False)
-    # user = models.ForeignKey('django.contrib.auth.models.User', on_delete=models.CASCADE)
     user: User = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f'{self.title} - by {self.user.username}'
+    
+    def hasValidDates(self):
+        return self.date_completed > self.created
